@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>墨迹天气 - 会员功能原型图</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'weather-blue': '#4A90E2',
+                        'weather-light': '#E8F4FD',
+                        'premium-gold': '#FFD700',
+                        'premium-gradient': 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .premium-gradient {
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+        }
+        .glass-effect {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.1);
+        }
+        .phone-frame {
+            width: 375px;
+            height: 812px;
+            border: 8px solid #333;
+            border-radius: 40px;
+            overflow: hidden;
+            position: relative;
+            margin: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+        .status-bar {
+            height: 44px;
+            background: rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        .page {
+            display: none;
+            height: 768px;
+            overflow-y: auto;
+        }
+        .page.active {
+            display: block;
+        }
+        .tab-indicator {
+            position: absolute;
+            bottom: 34px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.8);
+            padding: 8px 16px;
+            border-radius: 20px;
+            color: white;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex flex-wrap justify-center items-start min-h-screen py-8">
+    
+    <!-- 场景1: 免费用户 - 会员中心首页 -->
+    <div class="phone-frame bg-white">
+        <div class="status-bar text-black">
+            <span>17:31</span>
+            <div class="flex items-center gap-1">
+                <span>••••</span>
+                <span>📶</span>
+                <span>📶</span>
+                <span>80%</span>
+            </div>
+        </div>
+        
+        <div class="page active" id="free-user-home">
+            <!-- 顶部导航 -->
+            <div class="gradient-bg text-white p-6 pb-8">
+                <div class="flex items-center justify-between mb-4">
+                    <h1 class="text-xl font-bold">会员中心</h1>
+                    <button class="p-2">⚙️</button>
+                </div>
+                <div class="flex items-center gap-3">
+                    <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=60&h=60&fit=crop&crop=face" 
+                         class="w-12 h-12 rounded-full border-2 border-white">
+                    <div>
+                        <p class="font-semibold">用户12345</p>
+                        <p class="text-sm opacity-90">普通用户</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 会员权益预览 -->
+            <div class="px-6 -mt-4">
+                <div class="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-lg font-bold text-gray-800">解锁全部功能</h2>
+                        <span class="premium-gradient text-white px-3 py-1 rounded-full text-sm font-semibold">VIP</span>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-4 mb-6">
+                        <div class="flex items-center gap-2">
+                            <span class="text-blue-500">🌈</span>
+                            <span class="text-sm text-gray-600">15天天气预报</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-green-500">🎨</span>
+                            <span class="text-sm text-gray-600">个性化主题</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-purple-500">📱</span>
+                            <span class="text-sm text-gray-600">桌面小组件</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-orange-500">🚫</span>
+                            <span class="text-sm text-gray-600">去除广告</span>
+                        </div>
+                    </div>
+
+                    <div class="space-y-3">
+                        <button class="w-full bg-blue-500 text-white py-3 rounded-xl font-semibold hover:bg-blue-600 transition-colors">
+                            免费试用7天
+                        </button>
+                        <p class="text-xs text-gray-500 text-center">试用期结束后 ¥12/月，可随时取消</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 功能限制提示 -->
+            <div class="px-6 mt-6">
+                <div class="bg-yellow-50 border border-yellow-200 rounded-xl p-4">
+                    <div class="flex items-center gap-3">
+                        <span class="text-yellow-500 text-xl">⚠️</span>
+                        <div>
+                            <p class="font-semibold text-yellow-800">当前功能受限</p>
+                            <p class="text-sm text-yellow-600">升级会员解锁更多精准天气服务</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 常见问题 -->
+            <div class="px-6 mt-6">
+                <h3 class="font-semibold text-gray-800 mb-3">常见问题</h3>
+                <div class="space-y-2">
+                    <div class="bg-white rounded-lg p-4 border border-gray-100">
+                        <p class="text-sm font-medium text-gray-700">如何取消订阅？</p>
+                        <p class="text-xs text-gray-500 mt-1">可在设置中随时取消自动续费</p>
+                    </div>
+                    <div class="bg-white rounded-lg p-4 border border-gray-100">
+                        <p class="text-sm font-medium text-gray-700">试用期会扣费吗？</p>
+                        <p class="text-xs text-gray-500 mt-1">试用期内完全免费，到期前24小时可取消</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="tab-indicator">场景1: 免费用户首页</div>
+    </div>
+
+    <!-- 场景2: 购买订阅页面 -->
+    <div class="phone-frame bg-white">
+        <div class="status-bar text-black">
+            <span>17:31</span>
+            <div class="flex items-center gap-1">
+                <span>••••</span>
+                <span>📶</span>
+                <span>📶</span>
+                <span>80%</span>
+            </div>
+        </div>
+        
+        <div class="page active">
+            <!-- 头部 -->
+            <div class="gradient-bg text-white p-6 pb-12">
+                <div class="flex items-center justify-between mb-6">
+                    <button class="p-2">←</button>
+                    <h1 class="text-lg font-bold">选择订阅方案</h1>
+                    <div></div>
+                </div>
+                
+                <div class="text-center">
+                    <img src="https://images.unsplash.com/photo-1504608524841-42fe6f032b4b?w=80&h=80&fit=crop" 
+                         class="w-20 h-20 rounded-full mx-auto mb-4 border-4 border-white/30">
+                    <h2 class="text-xl font-bold mb-2">墨迹天气 VIP</h2>
+                    <p class="text-sm opacity-90">专业天气服务，让生活更精彩</p>
+                </div>
+            </div>
+
+            <!-- 订阅方案 -->
+            <div class="px-6 -mt-8">
+                <div class="space-y-4">
+                    <!-- 年度订阅 - 推荐 -->
+                    <div class="bg-white rounded-2xl shadow-lg border-2 border-blue-500 p-6 relative">
+                        <div class="absolute -top-3 left-6 bg-blue-500 text-white px-4 py-1 rounded-full text-xs font-semibold">
+                            最划算
+                        </div>
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h3 class="font-bold text-lg text-gray-800">年度会员</h3>
+                                <p class="text-sm text-gray-500">12个月完整体验</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-2xl font-bold text-blue-500">¥88</p>
+                                <p class="text-xs text-gray-400 line-through">¥144</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm text-gray-600">平均 ¥7.3/月</span>
+                            <div class="w-6 h-6 rounded-full border-2 border-blue-500 bg-blue-500 flex items-center justify-center">
+                                <div class="w-2 h-2 bg-white rounded-full"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 月度订阅 -->
+                    <div class="bg-white rounded-2xl shadow-lg border border-gray-200 p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h3 class="font-bold text-lg text-gray-800">月度会员</h3>
+                                <p class="text-sm text-gray-500">按月灵活订阅</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-2xl font-bold text-gray-800">¥12</p>
+                                <p class="text-xs text-gray-400">每月</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm text-gray-600">随时可取消</span>
+                            <div class="w-6 h-6 rounded-full border-2 border-gray-300"></div>
+                        </div>
+                    </div>
+
+                    <!-- 试用方案 -->
+                    <div class="bg-gradient-to-r from-green-50 to-blue-50 rounded-2xl border border-green-200 p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h3 class="font-bold text-lg text-gray-800">免费试用</h3>
+                                <p class="text-sm text-gray-500">体验完整功能</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-2xl font-bold text-green-600">免费</p>
+                                <p class="text-xs text-gray-400">7天</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm text-gray-600">试用后 ¥12/月</span>
+                            <div class="w-6 h-6 rounded-full border-2 border-gray-300"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 权益说明 -->
+                <div class="mt-6 bg-gray-50 rounded-xl p-4">
+                    <h4 class="font-semibold text-gray-800 mb-3">会员权益</h4>
+                    <div class="grid grid-cols-2 gap-3 text-sm">
+                        <div class="flex items-center gap-2">
+                            <span class="text-green-500">✓</span>
+                            <span>15天天气预报</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-green-500">✓</span>
+                            <span>去除所有广告</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-green-500">✓</span>
+                            <span>高级桌面组件</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-green-500">✓</span>
+                            <span>个性化主题</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 购买按钮 -->
+                <div class="mt-8 mb-6">
+                    <button class="w-full bg-blue-500 text-white py-4 rounded-xl font-semibold text-lg hover:bg-blue-600 transition-colors">
+                        开始免费试用
+                    </button>
+                    <p class="text-xs text-gray-500 text-center mt-3">
+                        订阅即表示同意<span class="text-blue-500">服务条款</span>和<span class="text-blue-500">隐私政策</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="tab-indicator">场景2: 购买订阅页面</div>
+    </div>
+
+    <!-- 场景3: 试用期用户管理 -->
+    <div class="phone-frame bg-white">
+        <div class="status-bar text-black">
+            <span>17:31</span>
+            <div class="flex items-center gap-1">
+                <span>••••</span>
+                <span>📶</span>
+                <span>📶</span>
+                <span>80%</span>
+            </div>
+        </div>
+        
+        <div class="page active">
+            <!-- 顶部 -->
+            <div class="gradient-bg text-white p-6 pb-8">
+                <div class="flex items-center justify-between mb-4">
+                    <h1 class="text-xl font-bold">我的会员</h1>
+                    <button class="p-2">⚙️</button>
+                </div>
+                <div class="flex items-center gap-3">
+                    <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=60&h=60&fit=crop&crop=face" 
+                         class="w-12 h-12 rounded-full border-2 border-white">
+                    <div>
+                        <p class="font-semibold">用户12345</p>
+                        <div class="flex items-center gap-2">
+                            <span class="bg-orange-500 text-white px-2 py-0.5 rounded-full text-xs font-semibold">试用中</span>
+                            <span class="text-sm opacity-90">还剩4天</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 试用状态卡片 -->
+            <div class="px-6 -mt-4">
+                <div class="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-lg font-bold text-gray-800">免费试用进行中</h2>
+                        <span class="text-orange-500 font-semibold">4天后到期</span>
+                    </div>
+                    
+                    <!-- 进度条 -->
+                    <div class="mb-4">
+                        <div class="flex justify-between text-sm text-gray-600 mb-2">
+                            <span>试用进度</span>
+                            <span>3/7天</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div class="bg-orange-500 h-2 rounded-full" style="width: 43%"></div>
+                        </div>
+                    </div>
+
+                    <div class="bg-orange-50 border border-orange-200 rounded-xl p-4 mb-4">
+                        <div class="flex items-center gap-2 mb-2">
+                            <span class="text-orange-500">⏰</span>
+                            <span class="font-semibold text-orange-800">试用即将结束</span>
+                        </div>
+                        <p class="text-sm text-orange-700">
+                            2024年8月1日 17:31 试用结束，将自动续费 ¥12/月
+                        </p>
+                    </div>
+
+                    <div class="space-y-3">
+                        <button class="w-full bg-blue-500 text-white py-3 rounded-xl font-semibold">
+                            立即订阅享优惠
+                        </button>
+                        <button class="w-full border border-gray-300 text-gray-700 py-3 rounded-xl font-semibold">
+                            取消自动续费
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 已解锁功能 -->
+            <div class="px-6 mt-6">
+                <h3 class="font-semibold text-gray-800 mb-3">试用期间已解锁</h3>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="bg-white rounded-xl p-4 border border-gray-100 text-center">
+                        <span class="text-2xl mb-2 block">🌈</span>
+                        <p class="text-sm font-medium text-gray-700">15天预报</p>
+                        <p class="text-xs text-green-600">已激活</p>
+                    </div>
+                    <div class="bg-white rounded-xl p-4 border border-gray-100 text-center">
+                        <span class="text-2xl mb-2 block">🚫</span>
+                        <p class="text-sm font-medium text-gray-700">无广告</p>
+                        <p class="text-xs text-green-600">已激活</p>
+                    </div>
+                    <div class="bg-white rounded-xl p-4 border border-gray-100 text-center">
+                        <span class="text-2xl mb-2 block">🎨</span>
+                        <p class="text-sm font-medium text-gray-700">主题包</p>
+                        <p class="text-xs text-green-600">已激活</p>
+                    </div>
+                    <div class="bg-white rounded-xl p-4 border border-gray-100 text-center">
+                        <span class="text-2xl mb-2 block">📱</span>
+                        <p class="text-sm font-medium text-gray-700">桌面组件</p>
+                        <p class="text-xs text-green-600">已激活</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 使用统计 -->
+            <div class="px-6 mt-6">
+                <div class="bg-white rounded-xl p-4 border border-gray-100">
+                    <h4 class="font-semibold text-gray-800 mb-3">试用期使用情况</h4>
+                    <div class="space-y-2">
+                        <div class="flex justify-between">
+                            <span class="text-sm text-gray-600">查看15天预报</span>
+                            <span class="text-sm font-semibold">12次</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-sm text-gray-600">使用主题</span>
+                            <span class="text-sm font-semibold">5个</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-sm text-gray-600">桌面组件</span>
+                            <span class="text-sm font-semibold">已添加</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="tab-indicator">场景3: 试用期用户管理</div>
+    </div>
+
+    <!-- 场景4: 已订阅用户权益页面 -->
+    <div class="phone-frame bg-white">
+        <div class="status-bar text-black">
+            <span>17:31</span>
+            <div class="flex items-center gap-1">
+                <span>••••</span>
+                <span>📶</span>
+                <span>📶</span>
+                <span>80%</span>
+            </div>
+        </div>
+        
+        <div class="page active">
+            <!-- VIP头部 -->
+            <div class="premium-gradient text-white p-6 pb-8">
+                <div class="flex items-center justify-between mb-4">
+                    <h1 class="text-xl font-bold">VIP会员</h1>
+                    <button class="p-2">⚙️</button>
+                </div>
+                <div class="flex items-center gap-3">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=60&h=60&fit=crop&crop=face" 
+                             class="w-12 h-12 rounded-full border-2 border-white">
+                        <div class="absolute -bottom-1 -right-1 bg-yellow-400 rounded-full p-1">
+                            <span class="text-xs">👑</span>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="font-semibold">VIP用户12345</p>
+                        <div class="flex items-center gap-2">
+                            <span class="bg-white/20 text-white px-2 py-0.5 rounded-full text-xs font-semibold">年度会员</span>
+                            <span class="text-sm opacity-90">2025年7月到期</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 会员状态 -->
+            <div class="px-6 -mt-4">
+                <div class="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-lg font-bold text-gray-800">会员有效期</h2>
+                        <span class="text-green-500 font-semibold">正常续费中</span>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <div class="flex justify-between text-sm text-gray-600 mb-2">
+                            <span>已使用时长</span>
+                            <span>2个月 / 12个月</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div class="bg-gradient-to-r from-yellow-400 to-orange-500 h-2 rounded-full" style="width: 17%"></div>
+                        </div>
+                    </div>
+
+                    <div class="bg-green-50 border border-green-200 rounded-xl p-4 mb-4">
+                        <div class="flex items-center gap-2 mb-2">
+                            <span class="text-green-500">✓</span>
+                            <span class="font-semibold text-green-800">自动续费已开启</span>
+                        </div>
+                        <p class="text-sm text-green-700">
+                            将于 2025年7月28日 自动续费 ¥88/年
+                        </p>
+                    </div>
+
+                    <button class="w-full border border-gray-300 text-gray-700 py-3 rounded-xl font-semibold">
+                        管理订阅
+                    </button>
+                </div>
+            </div>
+
+            <!-- VIP权益展示 -->
+            <div class="px-6 mt-6">
+                <h3 class="font-semibold text-gray-800 mb-3">专属权益</h3>
+                <div class="space-y-3">
+                    <div class="bg-white rounded-xl p-4 border border-gray-100 flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <span class="text-2xl">🌈</span>
+                            <div>
+                                <p class="font-medium text-gray-800">15天天气预报</p>
+                                <p class="text-xs text-gray-500">精准长期预报</p>
+                            </div>
+                        </div>
+                        <span class="text-green-500 font-semibold">已激活</span>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl p-4 border border-gray-100 flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <span class="text-2xl">🚫</span>
+                            <div>
+                                <p class="font-medium text-gray-800">去除广告</p>
+                                <p class="text-xs text-gray-500">纯净使用体验</p>
+                            </div>
+                        </div>
+                        <span class="text-green-500 font-semibold">已激活</span>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl p-4 border border-gray-100 flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <span class="text-2xl">🎨</span>
+                            <div>
+                                <p class="font-medium text-gray-800">个性主题包</p>
+                                <p class="text-xs text-gray-500">20+精美主题</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-green-500 font-semibold">已激活</span>
+                            <button class="text-blue-500 text-sm">更换</button>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl p-4 border border-gray-100 flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <span class="text-2xl">📱</span>
+                            <div>
+                                <p class="font-medium text-gray-800">高级桌面组件</p>
+                                <p class="text-xs text-gray-500">多样式组件</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-green-500 font-semibold">已激活</span>
+                            <button class="text-blue-500 text-sm">设置</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 使用统计 -->
+            <div class="px-6 mt-6">
+                <div class="bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-4 border border-blue-200">
+                    <h4 class="font-semibold text-gray-800 mb-3">本月使用统计</h4>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="text-center">
+                            <p class="text-2xl font-bold text-blue-600">156</p>
+                            <p class="text-xs text-gray-600">查看15天预报</p>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-2xl font-bold text-purple-600">8</p>
+                            <p class="text-xs text-gray-600">更换主题次数</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="tab-indicator">场景4: 已订阅用户权益</div>
+    </div>
+
+    <!-- 场景5: 取消订阅页面 -->
+    <div class="phone-frame bg-white">
+        <div class="status-bar text-black">
+            <span>17:31</span>
+            <div class="flex items-center gap-1">
+                <span>••••</span>
+                <span>📶</span>
+                <span>📶</span>
+                <span>80%</span>
+            </div>
+        </div>
+        
+        <div class="page active">
+            <!-- 头部 -->
+            <div class="bg-gray-50 p-6 pb-8">
+                <div class="flex items-center justify-between mb-6">
+                    <button class="p-2">←</button>
+                    <h1 class="text-lg font-bold text-gray-800">管理订阅</h1>
+                    <div></div>
+                </div>
+            </div>
+
+            <!-- 当前订阅信息 -->
+            <div class="px-6 -mt-4">
+                <div class="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="text-3xl">👑</span>
+                        <div>
+                            <h2 class="text-lg font-bold text-gray-800">墨迹天气 VIP</h2>
+                            <p class="text-sm text-gray-500">年度订阅 - ¥88/年</p>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-green-50 border border-green-200 rounded-xl p-4 mb-4">
+                        <div class="flex items-center gap-2 mb-2">
+                            <span class="text-green-500">✓</span>
+                            <span class="font-semibold text-green-800">订阅有效</span>
+                        </div>
+                        <p class="text-sm text-green-700">下次续费时间：2025年7月28日</p>
+                    </div>
+
+                    <div class="space-y-3">
+                        <button class="w-full bg-blue-500 text-white py-3 rounded-xl font-semibold">
+                            修改订阅方案
+                        </button>
+                        <button class="w-full border border-red-300 text-red-600 py-3 rounded-xl font-semibold">
+                            取消自动续费
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 取消原因调研 -->
+            <div class="px-6 mt-6">
+                <div class="bg-white rounded-xl p-6 border border-gray-100">
+                    <h3 class="font-semibold text-gray-800 mb-4">告诉我们取消的原因？</h3>
+                    <div class="space-y-3">
+                        <label class="flex items-center gap-3 p-3 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50">
+                            <input type="radio" name="cancel_reason" class="text-blue-500">
+                            <span class="text-sm text-gray-700">功能用不到</span>
+                        </label>
+                        <label class="flex items-center gap-3 p-3 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50">
+                            <input type="radio" name="cancel_reason" class="text-blue-500">
+                            <span class="text-sm text-gray-700">价格太贵</span>
+                        </label>
+                        <label class="flex items-center gap-3 p-3 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50">
+                            <input type="radio" name="cancel_reason" class="text-blue-500">
+                            <span class="text-sm text-gray-700">找到更好的替代品</span>
+                        </label>
+                        <label class="flex items-center gap-3 p-3 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50">
+                            <input type="radio" name="cancel_reason" class="text-blue-500">
+                            <span class="text-sm text-gray-700">暂时不需要</span>
+                        </label>
+                        <label class="flex items-center gap-3 p-3 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50">
+                            <input type="radio" name="cancel_reason" class="text-blue-500">
+                            <span class="text-sm text-gray-700">其他原因</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 挽留优惠 -->
+            <div class="px-6 mt-6">
+                <div class="bg-gradient-to-r from-orange-50 to-red-50 rounded-xl p-6 border border-orange-200">
+                    <div class="text-center mb-4">
+                        <span class="text-3xl mb-2 block">🎁</span>
+                        <h3 class="font-bold text-lg text-gray-800">特别挽留优惠</h3>
+                        <p class="text-sm text-gray-600">专为您准备的专属折扣</p>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg p-4 mb-4">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="font-semibold text-gray-800">6个月会员</p>
+                                <p class="text-sm text-gray-500">限时5折优惠</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-xl font-bold text-orange-600">¥36</p>
+                                <p class="text-xs text-gray-400 line-through">¥72</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="w-full bg-orange-500 text-white py-3 rounded-xl font-semibold mb-3">
+                        接受优惠继续订阅
+                    </button>
+                    <button class="w-full text-gray-600 py-2 text-sm">
+                        仍要取消订阅
+                    </button>
+                </div>
+            </div>
+
+            <!-- 取消说明 -->
+            <div class="px-6 mt-6 mb-6">
+                <div class="bg-yellow-50 border border-yellow-200 rounded-xl p-4">
+                    <h4 class="font-semibold text-yellow-800 mb-2">取消订阅说明</h4>
+                    <ul class="text-sm text-yellow-700 space-y-1">
+                        <li>• 取消后，会员权益将在当前周期结束后失效</li>
+                        <li>• 您可以继续使用到 2025年7月28日</li>
+                        <li>• 随时可以重新订阅恢复会员权益</li>
+                        <li>• 取消不会立即失去已付费的服务</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="tab-indicator">场景5: 取消订阅页面</div>
+    </div>
+
+    <!-- 场景6: 订阅到期后页面 -->
+    <div class="phone-frame bg-white">
+        <div class="status-bar text-black">
+            <span>17:31</span>
+            <div class="flex items-center gap-1">
+                <span>••••</span>
+                <span>📶</span>
+                <span>📶</span>
+                <span>80%</span>
+            </div>
+        </div>
+        
+        <div class="page active">
+            <!-- 头部 -->
+            <div class="bg-gray-100 p-6 pb-8">
+                <div class="flex items-center justify-between mb-4">
+                    <h1 class="text-xl font-bold text-gray-800">会员中心</h1>
+                    <button class="p-2">⚙️</button>
+                </div>
+                <div class="flex items-center gap-3">
+                    <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=60&h=60&fit=crop&crop=face" 
+                         class="w-12 h-12 rounded-full border-2 border-gray-300 opacity-60">
+                    <div>
+                        <p class="font-semibold text-gray-700">用户12345</p>
+                        <div class="flex items-center gap-2">
+                            <span class="bg-gray-400 text-white px-2 py-0.5 rounded-full text-xs font-semibold">已到期</span>
+                            <span class="text-sm text-gray-500">2024年7月28日到期</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 到期提醒 -->
+            <div class="px-6 -mt-4">
+                <div class="bg-white rounded-2xl shadow-lg p-6 border-2 border-red-200">
+                    <div class="text-center mb-6">
+                        <span class="text-4xl mb-3 block">😢</span>
+                        <h2 class="text-xl font-bold text-gray-800 mb-2">会员已到期</h2>
+                        <p class="text-sm text-gray-600">您的VIP权益已于 2024年7月28日 到期</p>
+                    </div>
+                    
+                    <div class="bg-red-50 border border-red-200 rounded-xl p-4 mb-6">
+                        <h3 class="font-semibold text-red-800 mb-2">功能受限提醒</h3>
+                        <ul class="text-sm text-red-700 space-y-1">
+                            <li>• 15天天气预报已关闭，仅显示7天</li>
+                            <li>• 个性化主题已锁定，恢复默认主题</li>
+                            <li>• 桌面高级组件已禁用</li>
+                            <li>• 广告展示已恢复</li>
+                        </ul>
+                    </div>
+
+                    <div class="space-y-3">
+                        <button class="w-full bg-blue-500 text-white py-3 rounded-xl font-semibold">
+                            立即续费恢复权益
+                        </button>
+                        <button class="w-full bg-green-500 text-white py-3 rounded-xl font-semibold">
+                            免费试用7天
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 回归优惠 -->
+            <div class="px-6 mt-6">
+                <div class="bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl p-6 border border-purple-200">
+                    <div class="text-center mb-4">
+                        <span class="text-3xl mb-2 block">🎉</span>
+                        <h3 class="font-bold text-lg text-gray-800">欢迎回归优惠</h3>
+                        <p class="text-sm text-gray-600">感谢您曾经的支持，为您准备特别优惠</p>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg p-4 mb-4">
+                        <div class="flex items-center justify-between mb-2">
+                            <div>
+                                <p class="font-semibold text-gray-800">年度会员</p>
+                                <p class="text-sm text-gray-500">限时6折优惠</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-xl font-bold text-purple-600">¥53</p>
+                                <p class="text-xs text-gray-400 line-through">¥88</p>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <span class="bg-purple-100 text-purple-800 px-2 py-1 rounded-full text-xs font-semibold">
+                                节省 ¥35
+                            </span>
+                        </div>
+                    </div>
+
+                    <button class="w-full bg-purple-500 text-white py-3 rounded-xl font-semibold">
+                        立即享受优惠
+                    </button>
+                </div>
+            </div>
+
+            <!-- 历史使用回顾 -->
+            <div class="px-6 mt-6">
+                <div class="bg-white rounded-xl p-6 border border-gray-100">
+                    <h3 class="font-semibold text-gray-800 mb-4">您的使用回顾</h3>
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                            <div class="flex items-center gap-3">
+                                <span class="text-blue-500">📅</span>
+                                <span class="text-sm text-gray-700">会员总时长</span>
+                            </div>
+                            <span class="font-semibold text-gray-800">12个月</span>
+                        </div>
+                        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                            <div class="flex items-center gap-3">
+                                <span class="text-green-500">👀</span>
+                                <span class="text-sm text-gray-700">查看15天预报</span>
+                            </div>
+                            <span class="font-semibold text-gray-800">1,247次</span>
+                        </div>
+                        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                            <div class="flex items-center gap-3">
+                                <span class="text-purple-500">🎨</span>
+                                <span class="text-sm text-gray-700">使用个性主题</span>
+                            </div>
+                            <span class="font-semibold text-gray-800">15个</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 底部按钮 -->
+            <div class="px-6 mt-6 mb-6">
+                <button class="w-full border border-gray-300 text-gray-600 py-3 rounded-xl font-semibold">
+                    暂时使用免费版本
+                </button>
+            </div>
+        </div>
+        
+        <div class="tab-indicator">场景6: 订阅到期后页面</div>
+    </div>
+
+    <script>
+        // 简单的页面切换功能（实际开发中会使用路由）
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            document.getElementById(pageId).classList.add('active');
+        }
+
+        // 模拟一些交互效果
+        document.addEventListener('click', function(e) {
+            if (e.target.matches('button')) {
+                e.target.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    e.target.style.transform = 'scale(1)';
+                }, 100);
+            }
+        });
+    </script>
+</body>
+</html>
